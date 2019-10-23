@@ -1,0 +1,169 @@
+<div class="container">
+    <div class="card" *ngIf="err" class="alert alert-danger">
+        {{ err.message }}
+    </div>
+    <div class="card col" *ngIf="response" class="alert alert-info">
+        {{ alertMsg }}
+    </div>
+</div>
+<!-- Claim Details -->
+<div class="card" *ngIf="details">
+
+    <div class="card-header">Claim Details</div>
+    <div class="card-body">
+        <form [formGroup]="claimForm" (ngSubmit)="onSubmit()">
+
+            <div class="row">
+
+                <!-- Policy Number Field -->
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="policyId">Policy Number</label>
+                        <input type="tel" formControlName="policyId" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f.policyId.errors }" />
+                        <div *ngIf="submitted && f.policyId.errors" class="invalid-feedback">
+                            <div *ngIf="f.policyId.errors.required">Policy Number is required</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Policy Number Field -->
+            </div>
+
+            <div class="row">
+
+                <!-- Admit Date Field -->
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="admitDate">Admitted Date</label>
+                        <input type="date" formControlName="admitDate" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f.admitDate.errors }" />
+                        <div *ngIf="submitted && f.admitDate.errors" class="invalid-feedback">
+                            <div *ngIf="f.admitDate.errors.required">Admited Date is required</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Admit Date Field -->
+                <!-- Discharged Date Field -->
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="dischargeDate">Discharged Date</label>
+                        <input type="date" formControlName="dischargeDate" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f.dischargeDate.errors }" />
+                        <div *ngIf="submitted && f.dischargeDate.errors" class="invalid-feedback">
+                            <div *ngIf="f.dischargeDate.errors.required">Discharged Date is required</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Discharged Date Field -->
+            </div>
+            <div class="row">
+
+                <!-- Hospital Field -->
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="hospitalName">Hospital Name</label>
+
+                        <select [(ngModel)]="selectedHospital" formControlName="hospitalName" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f.hospitalName.errors }">
+                            <option [ngValue]="select" selected disabled>--Select--</option>
+                            <option *ngFor="let c2 of cities2" [ngValue]="c2.hospitalName"> {{c2.hospitalName}}
+                            </option>
+                        </select>
+                        <div *ngIf="submitted && f.hospitalName.errors" class="invalid-feedback">
+                            <div *ngIf="f.hospitalName.errors.required">Hospital Name is required</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Hospital Name Field -->
+                <!-- Diagnosis Field -->
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="diagnosis">Diagnosis</label>
+
+                        <select [(ngModel)]="selectedCity" (ngModelChange)="onChange($event)"
+                            formControlName="diagnosis" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f.diagnosis.errors }">
+                            <option [ngValue]="select" selected disabled>--Select--</option>
+                            <option *ngFor="let c of cities" [ngValue]="c"> {{c.diagnosisType}} </option>
+                        </select>
+                        <div *ngIf="submitted && f.diagnosis.errors" class="invalid-feedback">
+                            <div *ngIf="f.diagnosis.errors.required">Diagnosis is required</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Diagnosis Field -->
+            </div>
+            <div class="row">
+
+                <!-- Nature Of Ailment Field -->
+                <div class="col-md-6 col-sm-12" *ngIf='showAilment'>
+                    <div class="form-group">
+                        <label for="natureOfAilment">Nature of Ailment</label>
+
+                        <select [(ngModel)]="selectedCity1" formControlName="natureOfAilment" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f.natureOfAilment.errors }">
+                            <option *ngFor="let c1 of cities1" [ngValue]="c1.ailmentName"> {{c1.ailmentName}} </option>
+                        </select>
+                        <div *ngIf="submitted && f.natureOfAilment.errors" class="invalid-feedback">
+                            <div *ngIf="f.natureOfAilment.errors.required">Nature Of Ailment is required</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Nature Of Ailment Field -->
+                <!-- Total Amount Field -->
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="totalAmount">Total Amount</label>
+                        <input type="tel" formControlName="totalAmount" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f.totalAmount.errors }" />
+                        <div *ngIf="submitted && f.totalAmount.errors" class="invalid-feedback">
+                            <div *ngIf="f.totalAmount.errors.required">Total Amount is required</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Total Amount Field -->
+            </div>
+            <!-- Details of Discharge Summary Field -->
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <div class="form-group">
+                        <label for="detailsOfDischargeSummary">Details of Discharge Summary</label>
+                        <input type="text" formControlName="detailsOfDischargeSummary" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f.detailsOfDischargeSummary.errors }" />
+                        <div *ngIf="submitted && f.detailsOfDischargeSummary.errors" class="invalid-feedback">
+                            <div *ngIf="f.detailsOfDischargeSummary.errors.required">Details of Discharge Summary is
+                                required</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- Details of Discharge Summary Field -->
+
+
+            <div class="form-group" style="text-align: center;">
+                <button [disabled]=" loading" class="btn btn-primary">Submit Claim</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+<!-- Claim Details -->
+<div class="card" *ngIf="!details">
+    <!-- <app-table [settings]="settings" [data]="data" (rowData)='rowClicked($event)'></app-table> -->
+    <!-- <h5>Claim Submission Details: </h5> -->
+    <div class="" style="margin: 2em;">
+
+        <p-panel header="Claim Submission Details">
+            <p-card style="text-align: center;">
+                Name: {{this.data.firstName}} {{this.data.lastName}}<br />
+                Email Id: {{this.data.emailId}}<br />
+                Policy Number: {{this.data.policyNumber}}<br />
+                Claim Id: {{this.data.claimId}}<br />
+                <button [routerLink]="['/policy']" class="btn btn-primary">Ok</button>
+            </p-card>
+        </p-panel>
+    </div>
+
+
+</div>

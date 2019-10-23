@@ -1,0 +1,47 @@
+<!-- Summary Page -->
+<div class="card">
+    <div class="card-body">
+        <!-- table reusable component -->
+        <app-table [settings]="settings" [data]="listClaim" [claimId]="claim_id" (rowData)='rowClicked($event)'>
+        </app-table>
+        <!-- table reusable component -->
+        <!-- Pagination -->
+        <p-paginator [rows]="10" totalRecords="100" (onPageChange)="paginate($event)"></p-paginator>
+        <!-- Pagination -->
+    </div>
+</div>
+
+<!-- Summary Page -->
+<!-- dilogue -->
+<p-dialog header="" [(visible)]="display" [modal]="true" [closable]="true" [style]="{width: '500px', minWidth: '200px'}"
+    [responsive]="true" [minY]="auto" [maximizable]="true" [baseZIndex]="10000">
+    <!-- dilogue header -->
+    <p-header>
+        Reason
+    </p-header>
+    <!-- dilogue header -->
+    <form [formGroup]="reasonForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="selectedStock"> Comments: </label><br />
+            <label for="email">Status: </label>
+            <p-dropdown formControlName="claimStatus" [options]="claimStatus" [(ngModel)]="selectedQuantity"
+                placeholder="Select Status" optionLabel="name" [showClear]="true">
+            </p-dropdown><br /><br />
+
+            <label for="reason">Reason: </label>
+
+            <input type="text" formControlName="reason" pInputText placeholder="Reason">
+            <div *ngIf="submitted && f.reason.errors" class="invalid-feedback">
+                <div *ngIf="f.reason.errors.required">Reason is required</div>
+            </div>
+
+        </div>
+    </form>
+    <!-- dilogue footer -->
+    <p-footer>
+        <button type="submit" (click)="confirm()" pButton label="Submit"></button>
+        <button type="button" (click)="cancel()" pButton label="cancel"></button>
+    </p-footer>
+    <!-- dilogue footer -->
+</p-dialog>
+<!-- dilogue -->
